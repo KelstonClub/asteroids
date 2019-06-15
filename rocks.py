@@ -4,7 +4,7 @@ WIDTH = 800
 HEIGHT = 600
 GUTTER = 0
 
-directions = [(0, 1), (1, 0), (1, 1)]
+directions = [(1, 1), (-1, -1), (0.67, 1), (1, .67), (-.67, 1), (-1, .67)]
 
 rocks = []
 for n in range(random.randint(3, 6)):
@@ -14,7 +14,6 @@ for n in range(random.randint(3, 6)):
     rocks.append(rock)
 
 def update():
-    screen.clear()
     for rock in rocks:
         dx, dy = rock.direction
         rock.x += dx
@@ -28,6 +27,18 @@ def update():
         elif rock.top > HEIGHT - GUTTER:
             rock.bottom = GUTTER
 
+        other_rocks = [r for r in rocks if r is not rock]
+        index = rock.collidelist(other_rocks)
+        if index != -1:
+            collider = other_rocks[index]
+            cx, cy = collider.direction
+            ex = dx * cx
+            ey = dy * cy
+            rock.direction = ex, ey
+            rock.x += 2 * ex
+            rock.y += 2 * ey
+
 def draw():
+    screen.clear()
     for rock in rocks:
         rock.draw()
