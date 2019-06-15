@@ -1,3 +1,4 @@
 # asteroids
 Asteroids
-hello there
+
+Try this for images: https://kenney.nl/assets
